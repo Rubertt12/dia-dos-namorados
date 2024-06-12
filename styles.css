@@ -218,7 +218,7 @@ body.dark-mode .reminder:hover {
 .sunflower {
     width: 50px;
     height: 50px;
-    background-image: url('sunflower.png');
+    background-image: url('/foto/sunflower.png');
     background-size: cover;
     animation: grow 0.5s ease-in-out;
 }
@@ -238,7 +238,7 @@ body.dark-mode .reminder:hover {
 .stars {
     width: 100%;
     height: 100%;
-    background: #000 url('stars.png') repeat;
+    background: #000 url('/foto/stars.png') repeat;
     position: absolute;
     top: 0;
     left: 0;
@@ -249,7 +249,7 @@ body.dark-mode .reminder:hover {
 .twinkling {
     width: 100%;
     height: 100%;
-    background: transparent url('twinkling.png') repeat;
+    background: transparent url('/foto/pngwing.com.png') repeat;
     position: absolute;
     top: 0;
     left: 0;
