@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia dos Namorados</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script src="scripts.js" defer></script>
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="twinkling"></div>
+    <header>
+        <h1>Feliz Dia dos Namorados!</h1>
+        <button id="toggle-dark-mode">Toggle Dark Mode</button>
+    </header>
+    <main>
+        <div id="welcome-message" class="hidden">
+            <p>Bem-vinda, meu amor! Espero que você goste dessa surpresa.</p>
+        </div>
+        <section id="photos">
+            <h2>Nossas Fotos</h2>
+            <div class="photo-gallery">
+                <img src="/foto/foto1.png" alt="Foto 1">
+                <img src="/foto/foto2.png" alt="Foto 2">
+                <img src="/foto/foto3.png" alt="Foto 3">
+            </div>
+        </section>
+        <section id="reminders">
+            <h2>Lembretes</h2>
+            <div class="reminder">
+                <p>"Você é o meu tudo."</p>
+            </div>
+            <div class="reminder">
+                <p>"Cada dia com você é um presente."</p>
+            </div>
+            <div class="reminder">
+                <p>"Eu te amo mais do que palavras podem expressar."</p>
+            </div>
+        </section>
+    </main>
+    <div id="photo-modal" class="modal hidden">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modal-img">
+        <div id="sunflowers"></div>
+        <div id="additional-messages"></div>
+    </div>
+    <audio id="background-music" src="/musica/De Todos Os Loucos Do Mundo.mp3" loop></audio>
+</body>
+</html>
