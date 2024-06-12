@@ -14,6 +14,7 @@
     <header>
         <h1>Feliz Dia dos Namorados!</h1>
         <button id="toggle-dark-mode">Toggle Dark Mode</button>
+        <button id="play-music">Play Music</button> <!-- Novo botão para iniciar a música -->
     </header>
     <main>
         <div id="welcome-message" class="hidden">
@@ -27,6 +28,9 @@
                 <img src="/foto/foto3.png" alt="Foto 3">
             </div>
         </section>
+        <div class="sticky-note draggable">
+            <textarea placeholder="Write something..."></textarea>
+        </div>
         <section id="reminders">
             <h2>Lembretes</h2>
             <div class="reminder">
@@ -46,7 +50,7 @@
         <div id="sunflowers"></div>
         <div id="additional-messages"></div>
     </div>
-    <audio id="background-music" src="/musica//musica.mp3" loop autoplay></audio>
+    <audio id="background-music" src="/musica//musica.mp3" loop></audio>
 
 </body>
 </html>

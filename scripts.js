@@ -8,37 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const sunflowersContainer = document.getElementById('sunflowers');
     const additionalMessages = document.getElementById('additional-messages');
 
-    const photoData = [
-        {
-            src: "/foto/foto1.png",
-            messages: [
-                "Você é meu raio de sol.",
-                "Com você, cada dia é mais brilhante.",
-                "Nosso amor floresce como girassóis.",
-                "Você ilumina minha vida.",
-                "Te amo mais do que girassóis amam o sol."
-            ]
-        },
-        {
-            src: "/foto/foto2.png",
-            messages: [
-                "Você é meu porto seguro.",
-                "Nossa jornada juntos é cheia de alegria.",
-                "Você me faz sorrir todos os dias.",
-                "Meu coração é seu para sempre.",
-                "Nossa história é minha favorita."
-            ]
-        },
-        {
-            src: "/foto/foto3.png",
-            messages: [
-                "Você é a melhor parte de mim.",
-                "Com você, cada momento é especial.",
-                "Você é a razão do meu sorriso.",
-                "Minha vida é mais colorida ao seu lado.",
-                "Você é o amor da minha vida."
-            ]
-        }
+    const messages = [
+        "Você é meu raio de sol.",
+        "Com você, cada dia é mais brilhante.",
+        "Nosso amor floresce como girassóis.",
+        "Você ilumina minha vida.",
+        "Te amo mais do que girassóis amam o sol."
     ];
 
     // Show welcome message
@@ -46,14 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
         welcomeMessage.classList.remove('hidden');
     }, 500);
 
-    // Verifica se a música já foi reproduzida anteriormente
-    const musicPlayed = localStorage.getItem('musicPlayed');
-    if (!musicPlayed) {
-        // Se a música ainda não foi reproduzida, reproduza-a automaticamente
-        backgroundMusic.play();
-        // Marca a música como reproduzida para evitar a reprodução automática em visitas subsequentes
-        localStorage.setItem('musicPlayed', true);
-    }
+    // Play background music
+    backgroundMusic.play();
 
     // Toggle dark mode
     toggleButton.addEventListener('click', () => {
@@ -70,10 +39,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Photo gallery modal with sunflowers and messages
     const photos = document.querySelectorAll('.photo-gallery img');
-    photos.forEach((photo, index) => {
+    photos.forEach(photo => {
         photo.addEventListener('click', () => {
             modal.style.display = 'block';
-            modalImg.src = photoData[index].src;
+            modalImg.src = photo.src;
 
             // Clear previous sunflowers and messages
             sunflowersContainer.innerHTML = '';
@@ -87,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Add additional messages
-            photoData[index].messages.forEach(message => {
+            messages.forEach(message => {
                 const p = document.createElement('p');
                 p.textContent = message;
                 additionalMessages.appendChild(p);
@@ -100,3 +69,129 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.style.display = 'none';
     });
 });
+document.addEventListener('DOMContentLoaded', () => {
+    const stickyNote = document.querySelector('.sticky-note');
+    makeDraggable(stickyNote);
+    addCloseButton(stickyNote);
+    addResizable(stickyNote);
+});
+
+function makeDraggable(element) {
+    let offsetX, offsetY, isDragging = false;
+
+    element.addEventListener('mousedown', (event) => {
+        isDragging = true;
+        offsetX = event.clientX - element.getBoundingClientRect().left;
+        offsetY = event.clientY - element.getBoundingClientRect().top;
+    });
+
+    document.addEventListener('mousemove', (event) => {
+        if (!isDragging) return;
+        const x = event.clientX - offsetX;
+        const y = event.clientY - offsetY;
+        element.style.left = x + 'px';
+        element.style.top = y + 'px';
+    });
+
+    document.addEventListener('mouseup', () => {
+        isDragging = false;
+    });
+}
+
+function addCloseButton(element) {
+    const closeButton = document.createElement('span');
+    closeButton.classList.add('close-button');
+    closeButton.textContent = '×';
+    closeButton.addEventListener('click', () => {
+        element.remove();
+    });
+    element.appendChild(closeButton);
+}
+
+function addResizable(element) {
+    const resizer = document.createElement('div');
+    resizer.classList.add('resizer');
+
+    resizer.addEventListener('mousedown', (event) => {
+        event.preventDefault();
+        let prevX = event.clientX;
+        let prevY = event.clientY;
+        const initialWidth = parseFloat(getComputedStyle(element, null).getPropertyValue('width').replace('px', ''));
+        const initialHeight = parseFloat(getComputedStyle(element, null).getPropertyValue('height').replace('px', ''));
+
+        document.addEventListener('mousemove', resize);
+        document.addEventListener('mouseup', () => {
+            document.removeEventListener('mousemove', resize);
+        });
+
+        function resize(event) {
+            const width = initialWidth + (event.clientX - prevX);
+            const height = initialHeight + (event.clientY - prevY);
+            element.style.width = `${width}px`;
+            element.style.height = `${height}px`;
+            prevX = event.clientX;
+            prevY = event.clientY;
+        }
+    });
+
+    element.appendChild(resizer);
+}
+document.addEventListener('DOMContentLoaded', () => {
+    loadStickyNotes();
+});
+
+function loadStickyNotes() {
+    const storedNotes = JSON.parse(localStorage.getItem('stickyNotes')) || [];
+    storedNotes.forEach(note => {
+        const newStickyNote = createStickyNote();
+        newStickyNote.style.left = note.left + 'px';
+        newStickyNote.style.top = note.top + 'px';
+        newStickyNote.querySelector('textarea').value = note.content;
+    });
+}
+
+function createStickyNote() {
+    const container = document.body; // Pode ser qualquer outro elemento onde você queira adicionar os novos sticky notes
+    const newStickyNote = document.createElement('div');
+    newStickyNote.className = 'sticky-note draggable';
+    newStickyNote.innerHTML = `<textarea placeholder="Write something..."></textarea>`;
+    container.appendChild(newStickyNote);
+    makeDraggable(newStickyNote);
+    addCloseButton(newStickyNote);
+    addResizable(newStickyNote);
+    addEditableText(newStickyNote);
+    return newStickyNote;
+}
+
+function makeDraggable(element) {
+    // Código de arrastar e soltar existente
+}
+
+function addCloseButton(element) {
+    // Código do botão de fechar existente
+}
+
+function addResizable(element) {
+    // Código de redimensionamento existente
+}
+
+function addEditableText(element) {
+    // Código de edição de texto existente
+}
+
+function fixStickyNote() {
+    // Código para fixar o sticky note existente
+}
+
+window.addEventListener('beforeunload', () => {
+    const stickyNotes = [];
+    document.querySelectorAll('.sticky-note').forEach(note => {
+        stickyNotes.push({
+            left: note.offsetLeft,
+            top: note.offsetTop,
+            content: note.querySelector('textarea').value
+        });
+    });
+    localStorage.setItem('stickyNotes', JSON.stringify(stickyNotes));
+});
+
