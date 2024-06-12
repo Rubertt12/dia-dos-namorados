@@ -8,12 +8,37 @@ document.addEventListener('DOMContentLoaded', () => {
     const sunflowersContainer = document.getElementById('sunflowers');
     const additionalMessages = document.getElementById('additional-messages');
 
-    const messages = [
-        "Você é meu raio de sol.",
-        "Com você, cada dia é mais brilhante.",
-        "Nosso amor floresce como girassóis.",
-        "Você ilumina minha vida.",
-        "Te amo mais do que girassóis amam o sol."
+    const photoData = [
+        {
+            src: "/foto/foto1.png",
+            messages: [
+                "Você é meu raio de sol.",
+                "Com você, cada dia é mais brilhante.",
+                "Nosso amor floresce como girassóis.",
+                "Você ilumina minha vida.",
+                "Te amo mais do que girassóis amam o sol."
+            ]
+        },
+        {
+            src: "/foto/foto2.png",
+            messages: [
+                "Você é meu porto seguro.",
+                "Nossa jornada juntos é cheia de alegria.",
+                "Você me faz sorrir todos os dias.",
+                "Meu coração é seu para sempre.",
+                "Nossa história é minha favorita."
+            ]
+        },
+        {
+            src: "/foto/foto3.png",
+            messages: [
+                "Você é a melhor parte de mim.",
+                "Com você, cada momento é especial.",
+                "Você é a razão do meu sorriso.",
+                "Minha vida é mais colorida ao seu lado.",
+                "Você é o amor da minha vida."
+            ]
+        }
     ];
 
     // Show welcome message
@@ -21,8 +46,14 @@ document.addEventListener('DOMContentLoaded', () => {
         welcomeMessage.classList.remove('hidden');
     }, 500);
 
-    // Play background music
-    backgroundMusic.play();
+    // Verifica se a música já foi reproduzida anteriormente
+    const musicPlayed = localStorage.getItem('musicPlayed');
+    if (!musicPlayed) {
+        // Se a música ainda não foi reproduzida, reproduza-a automaticamente
+        backgroundMusic.play();
+        // Marca a música como reproduzida para evitar a reprodução automática em visitas subsequentes
+        localStorage.setItem('musicPlayed', true);
+    }
 
     // Toggle dark mode
     toggleButton.addEventListener('click', () => {
@@ -39,10 +70,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Photo gallery modal with sunflowers and messages
     const photos = document.querySelectorAll('.photo-gallery img');
-    photos.forEach(photo => {
+    photos.forEach((photo, index) => {
         photo.addEventListener('click', () => {
             modal.style.display = 'block';
-            modalImg.src = photo.src;
+            modalImg.src = photoData[index].src;
 
             // Clear previous sunflowers and messages
             sunflowersContainer.innerHTML = '';
@@ -56,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Add additional messages
-            messages.forEach(message => {
+            photoData[index].messages.forEach(message => {
                 const p = document.createElement('p');
                 p.textContent = message;
                 additionalMessages.appendChild(p);
