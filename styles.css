@@ -7,7 +7,7 @@ body {
     margin: 0;
     padding: 0;
     transition: background-color 0.3s, color 0.3s;
-    overflow: hidden;
+    /* overflow: hidden; */
     position: relative;
 }
 
@@ -218,7 +218,7 @@ body.dark-mode .reminder:hover {
 .sunflower {
     width: 50px;
     height: 50px;
-    background-image: url('/foto/sunflower.png');
+    background-image: url('sunflower.png');
     background-size: cover;
     animation: grow 0.5s ease-in-out;
 }
@@ -238,7 +238,7 @@ body.dark-mode .reminder:hover {
 .stars {
     width: 100%;
     height: 100%;
-    background: #000 url('/foto/stars.png') repeat;
+    background: #000 url('stars.png') repeat;
     position: absolute;
     top: 0;
     left: 0;
@@ -249,28 +249,48 @@ body.dark-mode .reminder:hover {
 .twinkling {
     width: 100%;
     height: 100%;
-    background: transparent url('/foto/pngwing.com.png') repeat;
+    background: transparent url('twinkling.png') repeat;
     position: absolute;
     top: 0;
     left: 0;
     z-index: 0;
     animation: move-twink-back 200s linear infinite;
     opacity: 0.3;
-}
-
-@keyframes move-twink-back {
+    }
+    
+    @keyframes move-twink-back {
     0% {background-position: 0 0;}
     100% {background-position: -10000px 5000px;}
-}
-
-/* Animations */
-@keyframes fadeInDown {
+    }
+    
+    /* Animations */
+    @keyframes fadeInDown {
     0% {
-        opacity: 0;
-        transform: translateY(-20px);
+    opacity: 0;
+    transform: translateY(-20px);
     }
     100% {
-        opacity: 1;
-        transform: translateY(0);
+    opacity: 1;
+    transform: translateY(0);
     }
-}
+    }
+    
+    /* Responsividade */
+    @media only screen and (max-width: 600px) {
+    .photo-gallery img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    }
+    .reminder {
+        width: 90%;
+        max-width: 350px;
+    }
+    
+    .close {
+        top: 10px;
+        right: 10px;
+        font-size: 30px;
+    }
+    
+    }
