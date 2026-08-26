@@ -1,5 +1,47 @@
 const startDate = new Date('2015-07-26T00:00:00');
 
+// As quatro fotos são carregadas separadamente para evitar que o GitHub/Vercel
+// altere ou corte os arquivos enviados. A ordem é: 9 -> 11 -> 10 -> 8.
+const photoDataScripts = [
+  'assets/photo1-data.js',
+  'assets/photo2-data.js',
+  'assets/photo3-data.js',
+  'assets/photo4-data.js'
+];
+
+function loadScript(src) {
+  return new Promise((resolve) => {
+    const script = document.createElement('script');
+    script.src = src;
+    script.async = false;
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.head.appendChild(script);
+  });
+}
+
+async function loadCorrectPhotos() {
+  for (const src of photoDataScripts) {
+    await loadScript(src);
+  }
+
+  const sources = [window.PHOTO1, window.PHOTO2, window.PHOTO3, window.PHOTO4];
+  const images = [...document.querySelectorAll('.gallery .photo img')];
+
+  images.forEach((img, index) => {
+    const source = sources[index];
+    if (!source) return;
+
+    img.src = source;
+    img.removeAttribute('srcset');
+
+    const button = img.closest('.photo-open');
+    if (button) button.dataset.full = source;
+  });
+}
+
+loadCorrectPhotos();
+
 function updateCounter() {
   const now = new Date();
   let years = now.getFullYear() - startDate.getFullYear();
@@ -67,7 +109,8 @@ const closeLightbox = document.getElementById('closeLightbox');
 
 document.querySelectorAll('.photo-open').forEach(btn => {
   btn.addEventListener('click', () => {
-    lightboxImg.src = btn.dataset.full;
+    const renderedPhoto = btn.querySelector('img');
+    lightboxImg.src = renderedPhoto?.src || btn.dataset.full;
     lightboxCaption.textContent = btn.dataset.caption || '';
     lightbox.hidden = false;
     document.body.style.overflow = 'hidden';
